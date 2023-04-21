@@ -1,0 +1,112 @@
+<?php
+  session_start();
+
+  require 'database.php';
+
+  if (isset($_SESSION['user_id'])) {
+    $records = $conn->prepare('SELECT id, email, password FROM users WHERE id = :id');
+    $records->bindParam(':id', $_SESSION['user_id']);
+    $records->execute();
+    $results = $records->fetch(PDO::FETCH_ASSOC);
+
+    $user = null;
+
+    if (count($results) > 0) {
+      $user = $results;
+    }
+  }
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>¡Bienvenidos a KAWIDI!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source Sans Pro">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    
+    <h2 class="w3-left w3-tag w3-pale-red w3-round">KAWIDI</h2>
+    <a href="/" class="w3-hide-small w3-bar-item w3-button w3-mobile w3-medium w3-right" style="margin-top:10px;">HOME</a>
+    <a href="logout.php" class="w3-hide-small w3-bar-item w3-button w3-mobile w3-medium w3-right" style="margin-top:10px;">CERRAR SESIÓN</a>
+    <a href="#Actuador" class="w3-hide-small w3-bar-item w3-button w3-mobile w3-medium w3-right" style="margin-top:10px;">ACTUADOR</a>
+    <a href="#Gráficos datos" class="w3-hide-small w3-bar-item w3-button w3-mobile w3-medium w3-right" style="margin-top:10px;">GRÁFICOS</a> 
+<header></header>
+      <?php if (!empty($user)):?>     
+      <br><br><p class="black-with-blue-shadow "><i>¡Bienvenido de nuevo <?= $user['email']?>! todo está como lo dejaste</i></p>
+    <br><iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
+      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
+      clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div id="demo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-small">
+  <a href="#Actuador" class="w3-bar-item w3-button">Actuador</a>
+  <a href="#Gráficos datos" class="w3-bar-item w3-button">Gráficos datos</a>
+  <a href="logout.php" class="w3-bar-item w3-button">Cerrar sesión</a>
+      </div>
+  <div class="w3-content" style="max-width:1600px">
+
+  <!-- Grid / Trainers section -->
+  <div class="w3-row-padding" id="Gráficos datos">
+    <div class="w3-center w3-padding-32">
+      <h2 class="w3-wide w3-center">¡Analiza los datos de tu sistema!</h2>
+         <p class="w3-white w3-text-black">
+    Por medio de las siguientes gráficas te va a ser más fácil entender qué está pasando con tu sistema KAWID. Recuerda que las gráficas muestran los resultados de los datos en tiempo real.
+      </p>
+    </div>
+
+
+    <div class="w3-third w3-margin-bottom">
+      <div class="w3-card-4">
+        <img src="img/graph1.gif" style="width:100%">
+      </div>
+    </div>
+
+    <div class="w3-third w3-margin-bottom">
+        <div class="w3-card-4">
+          <img src="img/graph2.gif" style="width:100%">
+        </div>
+      </div>
+
+      <div class="w3-third w3-margin-bottom">
+        <div class="w3-card-4">
+          <img src="img/graph3.gif" style="width:100%">
+        </div>
+      </div>
+
+  </div>
+
+<!-- Activities section -->
+  <div class="w3-white" id="Actuador">
+    <div class="w3-container">
+      <div class="w3-center w3-padding-32">
+      <h2 class="w3-wide">¡Controla tu sistema!</h2>
+      <p class="w3-white w3-text-black">
+    Desde nuestra plataforma queremos garantizar una instancia segura, por eso brindamos un servicio con el cual puedas accionar los diferentes productos de manera remota.
+      </p>
+      </div>
+      <p><b>¡Presiona el botón de acuerdo a tus necesidades!</b></p>
+      <a href="" class="cambio" style="text-align: center">
+        <img src="img/on.png" width="560" height="348">
+        <img src="img/off.png" width="560" height="348">
+    </a>
+    
+        <div class="w3-row-padding" style="margin:0 -16px">
+            <div class="w3-third">
+    
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <?php else:?>
+    <?php header('location:/');?>
+    <?php endif; ?>
+</body>
+</html>
